@@ -1,6 +1,6 @@
 package by.ld1995.coursework.services
 
-import by.ld1995.coursework.models.User
+import by.ld1995.coursework.models.user.User
 import by.ld1995.coursework.repositories.UserRepository
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service

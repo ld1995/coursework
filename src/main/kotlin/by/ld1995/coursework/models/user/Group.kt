@@ -1,5 +1,6 @@
-package by.ld1995.coursework.models
+package by.ld1995.coursework.models.user
 
+import by.ld1995.coursework.models.PersistentObject
 import javax.persistence.*
 
 @Entity
@@ -15,7 +16,6 @@ data class Group(
         val curator: User,
 
         @OneToMany(mappedBy = "group")
-        //@OneToMany(mappedBy = "workbook", cascade = CascadeType.ALL, orphanRemoval = true)
         val users: Set<User> = HashSet()
 
 ) : PersistentObject()

@@ -1,6 +1,6 @@
 package by.ld1995.coursework.controllers
 
-import by.ld1995.coursework.models.User
+import by.ld1995.coursework.models.user.User
 import by.ld1995.coursework.services.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
