@@ -8,6 +8,6 @@ import javax.persistence.Table
 @Table(name = "coursework_role")
 data class Role(
 
-        val role: String
+        val name: String
 
 ) : PersistentObject()
