@@ -10,7 +10,7 @@ class UserService(private val userRepository: UserRepository) {
 
     fun getAllUsers(): List<User> = userRepository.findAll()
 
-    fun createUser(user: User): User = userRepository.save(user)
+    fun getUserByUsername(username : String) = userRepository.findByUsername(username)
 
     fun getUserById(id: Long): ResponseEntity<User> = userRepository.findById(id)
             .map { user -> ResponseEntity.ok(user) }

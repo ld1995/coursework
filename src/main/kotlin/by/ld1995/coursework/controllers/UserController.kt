@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 class UserController(private val userService: UserService) {
 
-    @GetMapping("/users")
+    @GetMapping
     fun getAllUsers(): List<User> = userService.getAllUsers()
 
-    @PostMapping("/users")
-    fun createUser(@Valid @RequestBody user: User): User = userService.createUser(user)
+    @GetMapping("/{username}")
+    fun getUserByUsername(@PathVariable(value = "username") username: String) = userService.getUserByUsername(username)
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     fun getUserById(@PathVariable(value = "id") id: Long) : ResponseEntity<User> = userService.getUserById(id)
 }

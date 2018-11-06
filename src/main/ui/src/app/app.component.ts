@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {TokenStorage} from "./services/storages/token.storage.service";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
-  title = 'ui';
+
+  constructor(public tokenStorage: TokenStorage) {
+
+  }
+
+  logout() {
+    this.tokenStorage.signOut()
+  }
 }

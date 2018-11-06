@@ -17,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository
+import java.net.CookieHandler
 
 @Configuration
 @EnableWebSecurity
@@ -83,7 +85,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                 .permitAll()
                 .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
                 .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**")
+                .antMatchers(HttpMethod.GET, "/api/**", "/api/users/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
