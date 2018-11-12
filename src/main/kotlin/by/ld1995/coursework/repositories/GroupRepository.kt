@@ -7,7 +7,5 @@ import java.util.*
 
 @Repository
 interface GroupRepository : JpaRepository<Group, Long> {
-
     fun findByName(name: String): Optional<Group>
-
 }

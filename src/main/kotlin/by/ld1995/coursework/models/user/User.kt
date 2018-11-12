@@ -1,7 +1,7 @@
 package by.ld1995.coursework.models.user
 
-import by.ld1995.coursework.models.Chat
 import by.ld1995.coursework.models.PersistentObject
+import java.time.Instant
 import javax.persistence.*
 
 @Entity
@@ -27,7 +27,7 @@ data class User(
 //        @ManyToMany
 //        val chats: Set<Chat> = HashSet(),
 
-        @ManyToMany(cascade = [CascadeType.ALL])
+        @ManyToMany(fetch = FetchType.LAZY)
         @JoinTable(name = "coursework_user_role",
                 joinColumns = [JoinColumn(name = "user_id")],
                 inverseJoinColumns = [JoinColumn(name = "role_id")]

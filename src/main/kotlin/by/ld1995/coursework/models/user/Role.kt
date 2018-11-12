@@ -2,6 +2,7 @@ package by.ld1995.coursework.models.user
 
 import by.ld1995.coursework.models.PersistentObject
 import javax.persistence.Entity
+import javax.persistence.ManyToMany
 import javax.persistence.Table
 
 @Entity

@@ -16,4 +16,8 @@ class UserService(private val userRepository: UserRepository) {
             .map { user -> ResponseEntity.ok(user) }
             .orElse(ResponseEntity.notFound().build())
 
+    fun existsByUsername(username: String) : Boolean = userRepository.existsByUsername(username)
+
+    fun existsByEmail(email: String) : Boolean = userRepository.existsByEmail(email)
+
 }

@@ -1,10 +1,9 @@
 package by.ld1995.coursework.configurations.security
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import java.lang.annotation.Documented
 
-@Target(AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.TYPE)
+@Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)
-@Documented
+@MustBeDocumented
 @AuthenticationPrincipal
 annotation class CurrentUser
