@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+
+          <h5 class="card-title text-center">Login</h5>
+          <div *ngIf="messageError.length" class="alert alert-danger">
+            {{messageError}}
+          </div>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="usernameOrEmail">Username or email:</label>
+              <input class="form-control" name="usernameOrEmail" id="usernameOrEmail" type="text"
+                     formControlName="usernameOrEmail" placeholder="Username or Email" required>
+            </div>
+            <div *ngIf="loginForm.controls['usernameOrEmail'].invalid && loginForm.controls['usernameOrEmail'].dirty"
+                 class="alert alert-danger">
+              <div *ngIf="loginForm.controls['usernameOrEmail'].errors.required">
+                Username or email is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input class="form-control" name="password" id="password" type="password"
+                     formControlName="password" placeholder="Password" required>
+            </div>
+            <div *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].dirty"
+                 class="alert alert-danger">
+              <div *ngIf="loginForm.controls['password'].errors.required">
+                Password is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-lg btn-primary btn-block" [disabled]="!loginForm.valid"
+                      type="submit">Login</button>
+            </div>
+            <a routerLink="/signup">Or register now!</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4 d-md-block bg-light sidebar px-4 pt-3">
+      <div class="input-group">
+        <input #search class="form-control" type="search" placeholder="Search" (input)="filterItem(search.value)">
+        <div class="input-group-append">
+          <div class="input-group-text"><i class="fa fa-search"></i></div>
+        </div>
+      </div>
+      <app-chat-list [chatList]="filteredItems"></app-chat-list>
+      <button id="addButton" type="button" class="btn btn-primary btn-circle" (click)="addChat()">
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+
+    <div class="col-md-7 ml-sm-auto col-lg-8 px-lg-3 pt-3">
+      <button *ngIf="showCloseButton" type="button" class="close" aria-label="Close" (click)="cleanWorkPlace()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div #messagecontainer>
+      </div>
+      <!--<h3>Chat</h3>-->
+      <!--<button (click)="sendMessage('click')"></button>-->
+      <!--<div *ngIf="showCloseButton" class="type_msg">-->
+      <!--<div class="input_msg_write">-->
+      <!--<input type="text" class="write_msg" placeholder="Type a message"/>-->
+      <!--<button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>-->
+      <!--</div>-->
+      <!--</div>-->
+    </div>
+  </div>
+</div>

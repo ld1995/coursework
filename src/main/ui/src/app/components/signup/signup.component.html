@@ -1,0 +1,131 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+
+          <h5 class="card-title text-center">Sign Up</h5>
+          <div *ngIf="messageError.length" class="alert alert-danger">
+            {{messageError}}
+          </div>
+          <div *ngIf="messageSuccess.length" class="alert alert-success">
+            {{messageSuccess}}
+          </div>
+
+          <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="fullName">Full name:</label>
+              <input class="form-control" name="fullName" id="fullName" type="text" formControlName="fullName"
+                     placeholder="Your full name">
+            </div>
+            <div *ngIf="signUpForm.controls['fullName'].invalid && signUpForm.controls['fullName'].dirty"
+                 class="alert alert-danger">
+              <div *ngIf="signUpForm.controls['fullName'].errors.required">
+                Full name is required.
+              </div>
+              <div *ngIf="signUpForm.controls['fullName'].errors.maxlength">
+                Name is too long (Maximum 100 characters allowed.)
+              </div>
+              <div *ngIf="signUpForm.controls['fullName'].errors.minlength">
+                Name is too short (Minimum 4 characters needed.)
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="username">Username:</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">@</div>
+                </div>
+                <input class="form-control" name="username" id="username" type="text" formControlName="username"
+                       placeholder="A unique username">
+              </div>
+            </div>
+            <div *ngIf="signUpForm.controls['username'].invalid && signUpForm.controls['username'].dirty"
+                 class="alert alert-danger">
+              <div *ngIf="signUpForm.controls['username'].errors.required">
+                Username is required.
+              </div>
+              <div *ngIf="signUpForm.controls['username'].errors.maxlength">
+                Username is too long (Maximum 15 characters allowed.)
+              </div>
+              <div *ngIf="signUpForm.controls['username'].errors.minlength">
+                Username is too short (Minimum 3 characters needed.)
+              </div>
+              <div *ngIf="signUpForm.controls['username'].errors.usernameTaken">
+                This username is already taken!
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input class="form-control" name="email" id="email" type="email" formControlName="email"
+                     placeholder="Your email">
+            </div>
+            <div *ngIf="signUpForm.controls['email'].invalid && signUpForm.controls['email'].dirty"
+                 class="alert alert-danger">
+              <div *ngIf="signUpForm.controls['email'].errors.required">
+                Email is required.
+              </div>
+              <div *ngIf="signUpForm.controls['email'].errors.maxlength">
+                Email is too long (Maximum 40 characters allowed.)
+              </div>
+              <div *ngIf="signUpForm.controls['email'].errors.email">
+                Email not valid.
+              </div>
+              <div *ngIf="signUpForm.controls['email'].errors.emailTaken">
+                This email is already taken!
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="phoneNumber">Phone Number:</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">+375</div>
+                </div>
+                <input class="form-control" name="email" id="phoneNumber" type="tel" formControlName="phoneNumber"
+                       placeholder="Your phone number">
+              </div>
+            </div>
+            <div *ngIf="signUpForm.controls['phoneNumber'].invalid && signUpForm.controls['phoneNumber'].dirty"
+                 class="alert alert-danger">
+              <div *ngIf="signUpForm.controls['phoneNumber'].errors.required">
+                Phone number is required.
+              </div>
+              <div *ngIf="signUpForm.controls['phoneNumber'].errors.maxlength">
+                Phone number is too long (Maximum 9 characters allowed.)
+              </div>
+              <div *ngIf="signUpForm.controls['phoneNumber'].errors.minlength">
+                Phone number is too short (Maximum 9 characters allowed.)
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input class="form-control" name="password" id="password" type="password" formControlName="password"
+                     placeholder="A password between 6 to 20 characters">
+            </div>
+            <div *ngIf="signUpForm.controls['password'].invalid && signUpForm.controls['password'].dirty"
+                 class="alert alert-danger">
+              <div *ngIf="signUpForm.controls['password'].errors.required">
+                Password is required.
+              </div>
+              <div *ngIf="signUpForm.controls['password'].errors.maxlength">
+                Password is too long (Maximum 20 characters needed.)
+              </div>
+              <div *ngIf="signUpForm.controls['password'].errors.minlength">
+                Password is too short (Minimum 6 characters needed.)
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-lg btn-primary btn-block" [disabled]="!signUpForm.valid" type="submit">Sign Up
+              </button>
+            </div>
+            <a routerLink="/login">Already registed? Login now!</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
