@@ -19,7 +19,8 @@ class UserController(private val userService: UserService) {
     }
 
     @GetMapping("/users")
-    fun getAllUsers(): List<User> = userService.getAllUsers()
+    fun getAllUsers(@CurrentUser currentUser: UserPrincipal): List<UserSummary> =
+            userService.getAllUsersBesidesSelf(currentUser)
 
     @GetMapping("/user/checkUsernameAvailability")
     fun checkUsernameAvailability(@RequestParam(value = "username") username: String) : UserIdentityAvailability {

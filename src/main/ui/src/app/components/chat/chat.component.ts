@@ -11,13 +11,10 @@ export class ChatComponent implements OnInit {
 
   @Input() chat: ChatModule;
 
-  constructor(private workplace: WorkplaceComponent) {
+  constructor() {
   }
 
   ngOnInit() {
   }
 
-  getMessages(id: number) {
-    this.workplace.getMessagesByChatId(id);
-  }
 }

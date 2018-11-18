@@ -1,3 +1,73 @@
-<p>
-  create-chat works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 mx-auto">
+      <div class="card card-signin">
+        <div class="card-body">
+
+          <h5 class="card-title text-center">New chat</h5>
+          <div *ngIf="messageError.length" class="alert alert-danger">
+            {{messageError}}
+          </div>
+          <div *ngIf="messageSuccess.length" class="alert alert-success">
+            {{messageSuccess}}
+          </div>
+
+          <form [formGroup]="newChatForm" (ngSubmit)="createChat()">
+            <div class="form-group">
+              <label for="name">Chat name:</label>
+              <input class="form-control" name="name" id="name" type="text" formControlName="name"
+                     placeholder="New chat name">
+            </div>
+            <div *ngIf="newChatForm.controls['name'].invalid && newChatForm.controls['name'].dirty"
+                 class="alert alert-danger">
+              <div *ngIf="newChatForm.controls['name'].errors.required">
+                Name is required.
+              </div>
+              <div *ngIf="newChatForm.controls['name'].errors.maxlength">
+                Name is too long (Maximum 40 characters allowed.)
+              </div>
+              <div *ngIf="newChatForm.controls['name'].errors.minlength">
+                Name is too short (Minimum 4 characters needed.)
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="closeAt">Chat closing date:</label>
+              <input type="text" class="form-control" placeholder="Datepicker" id="closeAt"
+                     formControlName="closeAt"
+                     bsDatepicker #dp="bsDatepicker" [minDate]="minDate" [bsConfig]="{containerClass:'theme-blue'}"/>
+            </div>
+            <div *ngIf="newChatForm.controls['closeAt'].invalid && newChatForm.controls['closeAt'].dirty"
+                 class="alert alert-danger">
+              <div *ngIf="newChatForm.controls['closeAt'].errors.required">
+                Date is required.
+              </div>
+                <!--Selected date has passed.-->
+            </div>
+            <div class="form-group">
+              <label for="participants">Select participants:</label>
+              <ng-multiselect-dropdown id="participants"
+                                       [placeholder]="'Select participants'"
+                                       [data]="itemList"
+                                       [(ngModel)]="selectedItems"
+                                       [settings]="settings"
+                                       formControlName="participants">
+              </ng-multiselect-dropdown>
+            </div>
+            <div *ngIf="newChatForm.controls['participants'].invalid && newChatForm.controls['participants'].dirty"
+                 class="alert alert-danger">
+              <div *ngIf="newChatForm.controls['participants'].errors.required">
+                Select participants is required.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn-lg btn-primary btn-block" [disabled]="!newChatForm.valid" type="submit">Create
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

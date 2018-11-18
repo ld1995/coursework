@@ -10,7 +10,7 @@ import {TokenStorage} from "./services/storages/token.storage.service";
 import {WorkplaceComponent} from './components/workplace/workplace.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
-import {SignupComponent} from './components/signup/signup.component';
+import {SignUpComponent} from './components/signup/sign-up.component';
 import {ProfileComponent} from './components/profile/profile.component';
 import {UserService} from "./services/user/user.service";
 import {InterceptService} from "./services/intercept/intercept.service";
@@ -20,6 +20,9 @@ import {ChatService} from "./services/chat/chat.service";
 import {MessageListComponent} from './components/message-list/message-list.component';
 import {MessageComponent} from './components/message/message.component';
 import { CreateChatComponent } from './components/create-chat/create-chat.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
+import {UserDataService} from "./services/user-data/user-data.service";
 
 @NgModule({
   declarations: [
@@ -27,7 +30,7 @@ import { CreateChatComponent } from './components/create-chat/create-chat.compon
     MainComponent,
     LoginComponent,
     WorkplaceComponent,
-    SignupComponent,
+    SignUpComponent,
     ProfileComponent,
     ChatListComponent,
     ChatComponent,
@@ -43,7 +46,9 @@ import { CreateChatComponent } from './components/create-chat/create-chat.compon
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    BsDatepickerModule.forRoot()
   ],
   providers: [
     {
@@ -55,7 +60,8 @@ import { CreateChatComponent } from './components/create-chat/create-chat.compon
     UserService,
     ChatService,
     TokenStorage,
-    ProfileComponent
+    ProfileComponent,
+    UserDataService
   ],
   bootstrap: [AppComponent]
 })

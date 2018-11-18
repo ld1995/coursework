@@ -14,6 +14,6 @@ export class AppComponent {
   }
 
   logout() {
-    this.tokenStorage.signOut()
+    this.tokenStorage.signOut();
   }
 }

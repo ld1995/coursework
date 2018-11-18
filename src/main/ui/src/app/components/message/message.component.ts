@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MessageModule} from "../../models/message/message.module";
-import {ProfileComponent} from "../profile/profile.component";
 import {UserModule} from "../../models/user/user.module";
 
 @Component({
@@ -11,10 +10,9 @@ import {UserModule} from "../../models/user/user.module";
 export class MessageComponent implements OnInit {
 
   @Input() message: MessageModule;
-  public user: UserModule;
+  @Input() user: UserModule;
 
-  constructor(public profile: ProfileComponent) {
-    this.user = this.profile.user
+  constructor() {
   }
 
   ngOnInit() {

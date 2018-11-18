@@ -27,7 +27,6 @@ class ChatController(val chatRepository: ChatRepository,
         val chats = chatRepository.findByAuthorOrParticipantsMemberOf(user.id)
         return chats.stream().map { chat ->
             ChatResponse(chat.id, chat.name, UserSummary(chat.author.id, chat.author.username, chat.author.fullName),
-                    chat.participants.stream().map { user -> user.username }.collect(Collectors.toList()),
                     chat.createdAt, chat.closeAt)
         }.collect(Collectors.toList())
     }
@@ -38,8 +37,7 @@ class ChatController(val chatRepository: ChatRepository,
         return messages.stream().map { message ->
             ChatMessageResponse(
                     UserSummary(message.author.id, message.author.username, message.author.fullName),
-                    message.timeCreation, message.content, chatId.toString()
-            )
+                    message.timeCreation, message.content, chatId)
         }.collect(Collectors.toList())
     }
 }

@@ -24,10 +24,10 @@
                 Full name is required.
               </div>
               <div *ngIf="signUpForm.controls['fullName'].errors.maxlength">
-                Name is too long (Maximum 100 characters allowed.)
+                Full name is too long (Maximum 100 characters allowed.)
               </div>
               <div *ngIf="signUpForm.controls['fullName'].errors.minlength">
-                Name is too short (Minimum 4 characters needed.)
+                Full name is too short (Minimum 4 characters needed.)
               </div>
             </div>
 

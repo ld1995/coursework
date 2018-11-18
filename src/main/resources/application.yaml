@@ -11,4 +11,4 @@ spring:
     password: Ld_01482014
 app:
   jwtSecret: JWTSuperSecretKey
-  jwtExpirationInMs: 604800000
+  jwtExpirationInMs: 3600000

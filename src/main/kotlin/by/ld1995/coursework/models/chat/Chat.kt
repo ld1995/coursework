@@ -20,7 +20,7 @@ data class Chat(
                 joinColumns = [JoinColumn(name = "chat_id")],
                 inverseJoinColumns = [JoinColumn(name = "user_id")]
         )
-        val participants: Set<User> = HashSet(),
+        val participants: List<User> = ArrayList(),
 
         val createdAt: Instant,
 

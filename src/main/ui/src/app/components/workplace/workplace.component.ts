@@ -2,9 +2,12 @@ import {Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef
 import {WebSocketService} from "../../services/websocket/websocket.service";
 import {ChatService} from "../../services/chat/chat.service";
 import {ChatModule} from "../../models/chat/chat.module";
-import {MessageListComponent} from "../message-list/message-list.component";
-import {ProfileComponent} from "../profile/profile.component";
 import {CreateChatComponent} from "../create-chat/create-chat.component";
+import {UserService} from "../../services/user/user.service";
+import {UserModule} from "../../models/user/user.module";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {MessageListComponent} from "../message-list/message-list.component";
+import {UserDataService} from "../../services/user-data/user-data.service";
 
 @Component({
   selector: 'app-workplace',
@@ -13,62 +16,106 @@ import {CreateChatComponent} from "../create-chat/create-chat.component";
 })
 export class WorkplaceComponent implements OnInit {
 
-  public chatList: ChatModule[]= [];
-  public filteredItems: ChatModule[]= [];
   @ViewChild('messagecontainer', {read: ViewContainerRef}) entry: ViewContainerRef;
-  showCloseButton = false;
+  public chatList: ChatModule[] = [];
+  public filteredItems: ChatModule[] = [];
+  public messageForm: FormGroup;
+  private showCloseButton = false;
+  private showInputMessage = false;
+  private meData: UserModule = null;
+  private selectedElement: Element = null;
+  private openChatId: number;
 
-  constructor(private chatService: ChatService,  private resolver: ComponentFactoryResolver, public profile: ProfileComponent) {
-    this.chatService.getChat().subscribe(response => {
-      this.chatList = response;
-      this.filteredItems = response;
-    },response => {
-      console.log(response);
-    })
-    //private ws: WebSocketService
-    // this.ws.disconnect();
+  //при смене страницы пересоздается сокет, вынести сокет из конструктора
+  constructor(private userData: UserDataService, private chatService: ChatService,
+              private resolver: ComponentFactoryResolver,
+              private ws: WebSocketService, private formBuilder: FormBuilder) {
+    this.messageForm = this.formBuilder.group({
+      message: ['']
+    });
+    this.userData.chats$.subscribe(chat => this.chatList.unshift(chat));
+    this.userData.me$.subscribe(me => {
+      this.meData = me;
+      this.ws.connect(me.id);
+    });
+    this.filteredItems = this.chatList;
   }
 
   ngOnInit() {
   }
 
-  sendMessage(message: string) {
-    console.log(message);
-    // this.ws.sendMessage('Hello world');
-    // this.ws.sendMessage(message);
+  sendMessage() {
+    if (this.openChatId !== null) {
+      this.ws.sendMessage(this.openChatId, this.messageForm.value.message);
+      this.messageForm.reset();
+    }
   }
 
-  getMessagesByChatId(id: number) {
+  checkInput(): boolean {
+    return this.messageForm.value.message == null || this.messageForm.value.message.trim().length == 0;
+  }
+
+  getMessagesByChatId(event) {
+    let target = event.target;
+    let thisElement = document.getElementsByTagName("app-chat-list")[0];
+    while (target != thisElement) {
+      if (target.className == 'content') {
+        this.hideComponent();
+        this.openChatId = target.id;
+        this.highlight(target);
+        this.loadMessages(this.openChatId);
+        break;
+      }
+      target = target.parentNode;
+    }
+  }
+
+  highlight(node) {
+    if (this.selectedElement) {
+      this.selectedElement.classList.remove('selected');
+    }
+    this.selectedElement = node;
+    this.selectedElement.classList.add('selected');
+  }
+
+  loadMessages(id: number) {
     this.chatService.getMessage(id).subscribe(response => {
-      this.cleanWorkPlace();
       const toolFactory = this.resolver.resolveComponentFactory(MessageListComponent);
       const toolComponent = this.entry.createComponent(toolFactory);
       toolComponent.instance.messageList = response;
+      toolComponent.instance.me = this.meData;
       this.showCloseButton = true;
+      this.showInputMessage = true;
     }, response => {
-      this.cleanWorkPlace();
+      this.hideComponent();
       console.log(response);
-    })
+    });
   }
 
-  cleanWorkPlace() {
+  hideComponent() {
+    this.openChatId = null;
+    this.messageForm.reset();
     this.entry.clear();
     this.showCloseButton = false;
+    this.showInputMessage = false;
+    if (this.selectedElement) {
+      this.selectedElement.classList.remove('selected');
+    }
   }
 
-  addChat() {
-    this.cleanWorkPlace();
+  showComponentCreateChat() {
+    this.hideComponent();
     const toolFactory = this.resolver.resolveComponentFactory(CreateChatComponent);
-    const toolComponent = this.entry.createComponent(toolFactory);
-    console.log('add chat');
+    this.entry.createComponent(toolFactory);
+    this.showCloseButton = true;
   }
 
-  assignCopy(){
+  assignCopy() {
     this.filteredItems = Object.assign([], this.chatList);
   }
 
-  filterItem(value){
-    if(!value) this.assignCopy();
+  filterItem(value) {
+    if (!value) this.assignCopy();
     this.filteredItems = Object.assign([], this.chatList).filter(
       item => item.name.toLowerCase().indexOf(value.toLowerCase()) > -1
     )
