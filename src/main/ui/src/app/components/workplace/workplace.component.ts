@@ -1,13 +1,13 @@
-import {Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {WebSocketService} from "../../services/websocket/websocket.service";
 import {ChatService} from "../../services/chat/chat.service";
 import {ChatModule} from "../../models/chat/chat.module";
 import {CreateChatComponent} from "../create-chat/create-chat.component";
-import {UserService} from "../../services/user/user.service";
 import {UserModule} from "../../models/user/user.module";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {MessageListComponent} from "../message-list/message-list.component";
 import {UserDataService} from "../../services/user-data/user-data.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-workplace',

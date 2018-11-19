@@ -38,7 +38,7 @@
                   <div class="input-group-text">@</div>
                 </div>
                 <input class="form-control" name="username" id="username" type="text" formControlName="username"
-                       placeholder="A unique username">
+                       placeholder="A unique username" uniqueUsername>
               </div>
             </div>
             <div *ngIf="signUpForm.controls['username'].invalid && signUpForm.controls['username'].dirty"
@@ -52,7 +52,7 @@
               <div *ngIf="signUpForm.controls['username'].errors.minlength">
                 Username is too short (Minimum 3 characters needed.)
               </div>
-              <div *ngIf="signUpForm.controls['username'].errors.usernameTaken">
+              <div *ngIf="signUpForm.controls['username'].errors.uniqueUsername">
                 This username is already taken!
               </div>
             </div>
@@ -60,7 +60,7 @@
             <div class="form-group">
               <label for="email">Email:</label>
               <input class="form-control" name="email" id="email" type="email" formControlName="email"
-                     placeholder="Your email">
+                     placeholder="Your email" uniqueEmail>
             </div>
             <div *ngIf="signUpForm.controls['email'].invalid && signUpForm.controls['email'].dirty"
                  class="alert alert-danger">
@@ -73,8 +73,8 @@
               <div *ngIf="signUpForm.controls['email'].errors.email">
                 Email not valid.
               </div>
-              <div *ngIf="signUpForm.controls['email'].errors.emailTaken">
-                This email is already taken!
+              <div *ngIf="signUpForm.controls['email'].errors.uniqueEmail">
+                This email already taken!
               </div>
             </div>
 

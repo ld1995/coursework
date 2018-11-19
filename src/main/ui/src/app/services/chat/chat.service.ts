@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {ChatModule} from "../../models/chat/chat.module";
 import {MessageModule} from "../../models/message/message.module";
+import {Cacheable} from "ngx-cacheable";
 
 @Injectable({
   providedIn: 'root'

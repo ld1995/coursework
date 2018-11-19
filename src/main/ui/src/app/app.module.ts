@@ -19,10 +19,12 @@ import {ChatComponent} from './components/chat/chat.component';
 import {ChatService} from "./services/chat/chat.service";
 import {MessageListComponent} from './components/message-list/message-list.component';
 import {MessageComponent} from './components/message/message.component';
-import { CreateChatComponent } from './components/create-chat/create-chat.component';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import {CreateChatComponent} from './components/create-chat/create-chat.component';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 import {UserDataService} from "./services/user-data/user-data.service";
+import {UniqueEmailValidation} from './directive/validation-email/unique-email-validation.directive';
+import {UniqueUsernameValidation} from './directive/validation-username/unique-username-validation.directive';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import {UserDataService} from "./services/user-data/user-data.service";
     MessageListComponent,
     MessageComponent,
     CreateChatComponent,
+    UniqueEmailValidation,
+    UniqueUsernameValidation,
   ],
   entryComponents: [
     MessageListComponent,

@@ -21,10 +21,10 @@ export class UserService {
   }
 
   public checkUsernameAvailability(username) {
-    return this.http.get(environment.baseUrl + '/user/checkUsernameAvailability', username);
+    return this.http.get(environment.baseUrl + '/user/checkUsernameAvailability', {params : {username}});
   }
 
-  public checkEmailAvailability(email): Observable<Object> {
-    return this.http.get(environment.baseUrl + '/user/checkEmailAvailability', email);
+  public checkEmailAvailability(email) {
+    return this.http.get(`${environment.baseUrl}/user/checkEmailAvailability`, {params : {email}});
   }
 }
