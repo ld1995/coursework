@@ -34,15 +34,17 @@
             <div class="form-group">
               <label for="closeAt">Chat closing date:</label>
               <input type="text" class="form-control" placeholder="Datepicker" id="closeAt"
-                     formControlName="closeAt"
-                     bsDatepicker #dp="bsDatepicker" [minDate]="minDate" [bsConfig]="{containerClass:'theme-blue'}"/>
+                     formControlName="closeAt" [bsConfig]="configDatepicker"
+                     bsDatepicker [minDate]="minDate" autocomplete="off"/>
             </div>
             <div *ngIf="newChatForm.controls['closeAt'].invalid && newChatForm.controls['closeAt'].dirty"
                  class="alert alert-danger">
               <div *ngIf="newChatForm.controls['closeAt'].errors.required">
                 Date is required.
               </div>
-                <!--Selected date has passed.-->
+              <div *ngIf="newChatForm.controls['closeAt'].errors.bsDate">
+                Selected date has passed.
+              </div>
             </div>
             <div class="form-group">
               <label for="participants">Select participants:</label>
@@ -51,7 +53,8 @@
                                        [data]="itemList"
                                        [(ngModel)]="selectedItems"
                                        [settings]="settings"
-                                       formControlName="participants">
+                                       formControlName="participants"
+                                       maxHeight="150">
               </ng-multiselect-dropdown>
             </div>
             <div *ngIf="newChatForm.controls['participants'].invalid && newChatForm.controls['participants'].dirty"

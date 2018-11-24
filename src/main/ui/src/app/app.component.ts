@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {TokenStorage} from "./services/storages/token.storage.service";
-import {UserService} from "./services/user/user.service";
 
 @Component({
   selector: 'app-root',
@@ -9,8 +8,7 @@ import {UserService} from "./services/user/user.service";
 })
 export class AppComponent {
 
-  constructor(public tokenStorage: TokenStorage, private userService: UserService) {
-
+  constructor(public tokenStorage: TokenStorage) {
   }
 
   logout() {

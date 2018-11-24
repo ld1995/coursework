@@ -1,11 +1,12 @@
 package by.ld1995.coursework.services
 
 import by.ld1995.coursework.configurations.security.UserPrincipal
+import by.ld1995.coursework.dto.user.Profile
 import by.ld1995.coursework.dto.user.UserSummary
-import by.ld1995.coursework.models.user.User
+import by.ld1995.coursework.exception.UserNotFoundException
 import by.ld1995.coursework.repositories.UserRepository
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import java.security.Principal
 
 @Service
 class UserService(private val userRepository: UserRepository) {
@@ -16,14 +17,12 @@ class UserService(private val userRepository: UserRepository) {
                     .map { user -> UserSummary(user.id, user.username, user.fullName) }
                     .toList()
 
-    fun getUserByUsername(username: String) = userRepository.findByUsername(username)
-
-    fun getUserById(id: Long): ResponseEntity<User> = userRepository.findById(id)
-            .map { user -> ResponseEntity.ok(user) }
-            .orElse(ResponseEntity.notFound().build())
-
     fun existsByUsername(username: String): Boolean = userRepository.existsByUsername(username)
 
     fun existsByEmail(email: String): Boolean = userRepository.existsByEmail(email)
+
+    fun getProfile(currentUser: Principal) = userRepository.findByUsername(currentUser.name)
+            .map { user -> Profile(user.username, user.fullName, user.phoneNumber, user.email, "") }
+            .orElseThrow { UserNotFoundException(currentUser) }
 
 }

@@ -53,15 +53,6 @@ class ChatWebSocketController(val chatRepository: ChatRepository,
         this.chatMessageRepository.save(ChatMessage(user, Instant.now(), chatMessage.content, chat))
         val message = ChatMessageResponse(UserSummary(user.id, user.username, user.fullName),
                 Instant.now(), chatMessage.content, chatId)
-        messagingTemplate.convertAndSend("/topic/public/chat", message)
+        messagingTemplate.convertAndSend("/topic/public/chat/$chatId", message)
     }
-
-//    //todo
-//    @MessageMapping("/chat/{chatId}/disconnect")
-//    @SendTo("/topic/public")
-//    fun userDisconnect(@DestinationVariable chatId: Long,
-//                       currentUser: Principal) {
-////        val user = userRepository.findById(currentUser.getId()).orElseThrow { UserNotFoundException(currentUser) }
-//        this.chatRepository.deleteById(chatId)
-//    }
 }

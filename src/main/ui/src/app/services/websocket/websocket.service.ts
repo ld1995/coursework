@@ -11,6 +11,7 @@ import {UserDataService} from "../user-data/user-data.service";
 })
 export class WebSocketService {
   private stompClient = null;
+  private subscriptions = [];
 
   constructor(private userData: UserDataService) {
   }
@@ -19,9 +20,9 @@ export class WebSocketService {
     const socket = new SockJS('http://localhost:8080/socket?jwt=' + `${localStorage.getItem('AuthToken')}`);
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, () => {
-      this.stompClient.subscribe(`/topic/public/${id}`, res => this.getNewChat(res));
-      this.stompClient.subscribe(`/topic/public/chat`, res => this.getNewMessage(res));
-
+      let subscription = this.stompClient.subscribe(`/topic/public/${id}`, res => this.getNewChat(res));
+      this.subscriptions.push(subscription);
+      this.userData.chatIds.forEach(id => this.subscribeUserChat(id));
     });
   }
 
@@ -30,6 +31,11 @@ export class WebSocketService {
       {},
       JSON.stringify(data)
     );
+  }
+
+  subscribeUserChat(id: number) {
+    let subscription = this.stompClient.subscribe(`/topic/public/chat/${id}`, res => this.getNewMessage(res));
+    this.subscriptions.push(subscription);
   }
 
   sendMessage(chatId: number, content: String) {
@@ -45,16 +51,20 @@ export class WebSocketService {
   getNewChat(msg: Message) {
     let newChat: ChatModule = JSON.parse(msg.body);
     this.userData.setChat(newChat);
+    this.subscribeUserChat(newChat.id);
   }
 
   getNewMessage(msg: Message) {
     let newMessage: MessageModule = JSON.parse(msg.body);
-    console.log(newMessage);
+    this.userData.setMessage(newMessage);
   }
 
-  disconnect() {
+  unsubscribe() {
     if (this.stompClient != null) {
+      this.subscriptions.forEach(subscription => subscription.unsubscribe());
+      this.subscriptions = [];
       this.stompClient.disconnect();
+      this.stompClient = null;
     }
   }
 }

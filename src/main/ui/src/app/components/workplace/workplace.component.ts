@@ -3,18 +3,17 @@ import {WebSocketService} from "../../services/websocket/websocket.service";
 import {ChatService} from "../../services/chat/chat.service";
 import {ChatModule} from "../../models/chat/chat.module";
 import {CreateChatComponent} from "../create-chat/create-chat.component";
-import {UserModule} from "../../models/user/user.module";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {MessageListComponent} from "../message-list/message-list.component";
 import {UserDataService} from "../../services/user-data/user-data.service";
-import {Subscription} from "rxjs";
+import {UserService} from "../../services/user/user.service";
 
 @Component({
   selector: 'app-workplace',
   templateUrl: './workplace.component.html',
   styleUrls: ['./workplace.component.sass']
 })
-export class WorkplaceComponent implements OnInit {
+export class WorkplaceComponent implements OnInit, OnDestroy {
 
   @ViewChild('messagecontainer', {read: ViewContainerRef}) entry: ViewContainerRef;
   public chatList: ChatModule[] = [];
@@ -22,22 +21,36 @@ export class WorkplaceComponent implements OnInit {
   public messageForm: FormGroup;
   private showCloseButton = false;
   private showInputMessage = false;
-  private meData: UserModule = null;
   private selectedElement: Element = null;
   private openChatId: number;
 
-  //при смене страницы пересоздается сокет, вынести сокет из конструктора
   constructor(private userData: UserDataService, private chatService: ChatService,
-              private resolver: ComponentFactoryResolver,
+              private resolver: ComponentFactoryResolver, private userService: UserService,
               private ws: WebSocketService, private formBuilder: FormBuilder) {
     this.messageForm = this.formBuilder.group({
       message: ['']
     });
-    this.userData.chats$.subscribe(chat => this.chatList.unshift(chat));
-    this.userData.me$.subscribe(me => {
-      this.meData = me;
-      this.ws.connect(me.id);
-    });
+    this.userService.getMe().subscribe(
+      response => {
+        this.userData.me = response;
+        this.ws.connect(response.id)
+      },
+      response => console.log(response)
+    );
+    this.userService.getProfile().subscribe(response => this.userData.profile = response);
+    this.userData.chats$.subscribe(chat => {
+        this.chatList.unshift(chat);
+        // if (chat.author.id = this.userData.me.id) {
+        //   this.loadMessages(chat.id);
+        //   document.getElementById(chat.id).classList.add('selected')
+        // }
+      });
+    this.chatService.getChats().subscribe(
+      response => response.forEach(chat => {
+        this.userData.setChat(chat);
+        this.userData.chatIds.push(chat.id);
+      }),
+      response => console.log(response));
     this.filteredItems = this.chatList;
   }
 
@@ -46,7 +59,7 @@ export class WorkplaceComponent implements OnInit {
 
   sendMessage() {
     if (this.openChatId !== null) {
-      this.ws.sendMessage(this.openChatId, this.messageForm.value.message);
+      this.ws.sendMessage(this.openChatId, this.messageForm.value.message.trim());
       this.messageForm.reset();
     }
   }
@@ -61,9 +74,8 @@ export class WorkplaceComponent implements OnInit {
     while (target != thisElement) {
       if (target.className == 'content') {
         this.hideComponent();
-        this.openChatId = target.id;
         this.highlight(target);
-        this.loadMessages(this.openChatId);
+        this.loadMessages(target.id);
         break;
       }
       target = target.parentNode;
@@ -79,11 +91,12 @@ export class WorkplaceComponent implements OnInit {
   }
 
   loadMessages(id: number) {
+    this.openChatId = id;
+    const toolFactory = this.resolver.resolveComponentFactory(MessageListComponent);
+    const toolComponent = this.entry.createComponent(toolFactory);
+    toolComponent.instance.id = id;
     this.chatService.getMessage(id).subscribe(response => {
-      const toolFactory = this.resolver.resolveComponentFactory(MessageListComponent);
-      const toolComponent = this.entry.createComponent(toolFactory);
-      toolComponent.instance.messageList = response;
-      toolComponent.instance.me = this.meData;
+      response.forEach(message => this.userData.setMessage(message));
       this.showCloseButton = true;
       this.showInputMessage = true;
     }, response => {
@@ -106,7 +119,7 @@ export class WorkplaceComponent implements OnInit {
   showComponentCreateChat() {
     this.hideComponent();
     const toolFactory = this.resolver.resolveComponentFactory(CreateChatComponent);
-    this.entry.createComponent(toolFactory);
+    const toolComponent = this.entry.createComponent(toolFactory);
     this.showCloseButton = true;
   }
 
@@ -119,5 +132,10 @@ export class WorkplaceComponent implements OnInit {
     this.filteredItems = Object.assign([], this.chatList).filter(
       item => item.name.toLowerCase().indexOf(value.toLowerCase()) > -1
     )
+  }
+
+  ngOnDestroy(): void {
+    this.userData.chatIds = [];
+    this.ws.unsubscribe();
   }
 }

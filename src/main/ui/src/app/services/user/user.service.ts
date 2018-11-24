@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {UserModule} from "../../models/user/user.module";
+import {ProfileModule} from "../../models/profile/profile.module";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,10 @@ export class UserService {
 
   public getMe(): Observable<UserModule> {
     return this.http.get<UserModule>(environment.baseUrl + '/user/me');
+  }
+
+  public getProfile(): Observable<ProfileModule> {
+    return this.http.get<ProfileModule>(environment.baseUrl + '/user/profile');
   }
 
   public getParticipants(): Observable<UserModule[]> {

@@ -1,5 +1,5 @@
 <div class="mesgs">
-  <div class="msg_history">
+  <div class="msg_history" #scrollBottom>
     <div *ngFor="let message of messageList">
       <app-message [message]="message" [user]="me" ></app-message>
     </div>
