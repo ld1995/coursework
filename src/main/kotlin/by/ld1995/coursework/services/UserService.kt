@@ -1,15 +1,17 @@
 package by.ld1995.coursework.services
 
 import by.ld1995.coursework.configurations.security.UserPrincipal
-import by.ld1995.coursework.dto.user.Profile
 import by.ld1995.coursework.dto.user.UserSummary
 import by.ld1995.coursework.exception.UserNotFoundException
+import by.ld1995.coursework.models.user.User
+import by.ld1995.coursework.models.user.VerificationToken
 import by.ld1995.coursework.repositories.UserRepository
+import by.ld1995.coursework.repositories.VerificationTokenRepository
 import org.springframework.stereotype.Service
-import java.security.Principal
 
 @Service
-class UserService(private val userRepository: UserRepository) {
+class UserService(private val userRepository: UserRepository,
+                  private val tokenRepository: VerificationTokenRepository) {
 
     fun getAllUsersBesidesSelf(currentUser: UserPrincipal): List<UserSummary> =
             userRepository.findAll()
@@ -21,8 +23,22 @@ class UserService(private val userRepository: UserRepository) {
 
     fun existsByEmail(email: String): Boolean = userRepository.existsByEmail(email)
 
-    fun getProfile(currentUser: Principal) = userRepository.findByUsername(currentUser.name)
-            .map { user -> Profile(user.username, user.fullName, user.phoneNumber, user.email, "") }
-            .orElseThrow { UserNotFoundException(currentUser) }
+    fun isActiveUser(id: Long): Boolean = this.findUserById(id).active
 
+    fun save(user: User): User = userRepository.save(user)
+
+    fun findUserById(id: Long): User =
+            userRepository.findById(id).orElseThrow { UserNotFoundException(id) }
+
+    fun findUserByUsername(username: String): User =
+            userRepository.findByUsername(username).orElseThrow { UserNotFoundException(username) }
+
+    fun findAllById(ids: List<Long>): MutableList<User> =
+            userRepository.findAllById(ids)
+
+    fun createVerificationToken(user: User, token: String): VerificationToken =
+            tokenRepository.save(VerificationToken(token, user))
+
+    fun getVerificationToken(token: String): VerificationToken? =
+            tokenRepository.findByToken(token)
 }

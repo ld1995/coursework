@@ -19,7 +19,7 @@ data class User(
 
         val password: String,
 
-        val active: Int,
+        var active: Boolean,
 
 //        @ManyToOne
 //        val group: Group,

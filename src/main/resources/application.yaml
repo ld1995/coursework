@@ -9,6 +9,20 @@ spring:
     url: jdbc:mysql://localhost:3306/coursework?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false
     username: ld1995
     password: Ld_01482014
+  mail:
+    host: email-smtp.us-west-2.amazonaws.com
+    username:
+    password:
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          port: 25
+          auth: true
+          starttls:
+            enable: true
+            required: true
 app:
   jwtSecret: JWTSuperSecretKey
   jwtExpirationInMs: 3600000

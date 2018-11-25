@@ -22,7 +22,7 @@ export class WorkplaceComponent implements OnInit, OnDestroy {
   private showCloseButton = false;
   private showInputMessage = false;
   private selectedElement: Element = null;
-  private openChatId: number;
+  private openChatId: string;
 
   constructor(private userData: UserDataService, private chatService: ChatService,
               private resolver: ComponentFactoryResolver, private userService: UserService,
@@ -90,7 +90,7 @@ export class WorkplaceComponent implements OnInit, OnDestroy {
     this.selectedElement.classList.add('selected');
   }
 
-  loadMessages(id: number) {
+  loadMessages(id: string) {
     this.openChatId = id;
     const toolFactory = this.resolver.resolveComponentFactory(MessageListComponent);
     const toolComponent = this.entry.createComponent(toolFactory);

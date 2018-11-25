@@ -1,7 +1,6 @@
 package by.ld1995.coursework.services
 
 import by.ld1995.coursework.configurations.security.UserPrincipal
-import by.ld1995.coursework.exception.ResourceNotFoundException
 import by.ld1995.coursework.repositories.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService

@@ -39,6 +39,7 @@ class UserController(private val userService: UserService) {
 
     @GetMapping("/user/profile")
     fun getUserProfile(currentUser: Principal): Profile {
-        return userService.getProfile(currentUser)
+        val user = userService.findUserByUsername(currentUser.name)
+        return Profile(user.username, user.fullName, user.phoneNumber, user.email, "")
     }
 }

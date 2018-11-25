@@ -10,5 +10,5 @@ import java.util.*
 interface ChatMessageRepository : JpaRepository<ChatMessage, Long> {
 
     @Query("SELECT m FROM ChatMessage m WHERE m.chat.id = ?1")
-    fun findByChat(chatId: Long): Optional<List<ChatMessage>>
+    fun findByChat(chatId: Long): List<ChatMessage>
 }

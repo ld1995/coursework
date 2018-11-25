@@ -12,7 +12,7 @@ export class MessageListComponent implements OnInit, AfterViewChecked {
 
   @Input() public messageList: MessageModule[] = [];
   @Input() public me: UserModule;
-  @Input() public id: number;
+  @Input() public id: string;
   @ViewChild('scrollBottom') private scrollBottom: ElementRef;
 
 

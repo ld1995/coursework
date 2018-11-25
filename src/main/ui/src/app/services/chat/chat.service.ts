@@ -18,7 +18,7 @@ export class ChatService {
     return this.http.get<ChatModule[]>(environment.baseUrl + '/chat');
   }
 
-  public getMessage(id: number): Observable<MessageModule[]> {
+  public getMessage(id: string): Observable<MessageModule[]> {
     return this.http.get<MessageModule[]>(environment.baseUrl + `/message/${id}`);
   }
 }

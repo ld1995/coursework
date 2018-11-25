@@ -38,7 +38,7 @@ export class WebSocketService {
     this.subscriptions.push(subscription);
   }
 
-  sendMessage(chatId: number, content: String) {
+  sendMessage(chatId: string, content: String) {
     this.stompClient.send(`/api/chat`,
       {},
       JSON.stringify({
