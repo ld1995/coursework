@@ -30,6 +30,17 @@ export class WorkplaceComponent implements OnInit, OnDestroy {
     this.messageForm = this.formBuilder.group({
       message: ['']
     });
+    this.initApp();
+    this.userData.chats$.subscribe(chat => {
+      this.chatList.unshift(chat);
+      if (chat.author.id = this.userData.me.id) {
+        this.openMyNewChat(chat);
+      }
+    });
+    this.filteredItems = this.chatList;
+  }
+
+  initApp() {
     this.userService.getMe().subscribe(
       response => {
         this.userData.me = response;
@@ -38,20 +49,20 @@ export class WorkplaceComponent implements OnInit, OnDestroy {
       response => console.log(response)
     );
     this.userService.getProfile().subscribe(response => this.userData.profile = response);
-    this.userData.chats$.subscribe(chat => {
-        this.chatList.unshift(chat);
-        // if (chat.author.id = this.userData.me.id) {
-        //   this.loadMessages(chat.id);
-        //   document.getElementById(chat.id).classList.add('selected')
-        // }
-      });
     this.chatService.getChats().subscribe(
       response => response.forEach(chat => {
-        this.userData.setChat(chat);
+        this.chatList.unshift(chat);
         this.userData.chatIds.push(chat.id);
       }),
       response => console.log(response));
-    this.filteredItems = this.chatList;
+  }
+
+  openMyNewChat({id}) {
+    this.hideComponent();
+    setTimeout(() => {
+      this.loadMessages(id);
+      this.highlight(document.getElementById(id));
+    }, 500);
   }
 
   ngOnInit() {
