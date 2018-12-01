@@ -17,7 +17,7 @@ export class WebSocketService {
   }
 
   connect(id: number) {
-    const socket = new SockJS('http://localhost:8080/socket?jwt=' + `${localStorage.getItem('AuthToken')}`);
+    const socket = new SockJS('http://localhost:5000/socket?jwt=' + `${localStorage.getItem('AuthToken')}`);
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, () => {
       let subscription = this.stompClient.subscribe(`/topic/public/${id}`, res => this.getNewChat(res));

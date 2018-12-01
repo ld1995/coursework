@@ -12,7 +12,6 @@ import java.util.*
 
 @Component
 class RegistrationListener(private val userService: UserService,
-                           private val messages: MessageSource,
                            private val mailSender: JavaMailSender) : ApplicationListener<OnRegistrationCompleteEvent> {
 
     override fun onApplicationEvent(event: OnRegistrationCompleteEvent) {
@@ -26,12 +25,11 @@ class RegistrationListener(private val userService: UserService,
 
         val subject = "Registration Confirmation"
         val confirmationUrl = "/api/auth/registrationConfirm.html?token=$token"
-        val message: String = messages.getMessage("message.regSucc", null, Locale.ENGLISH)
 
         val email = SimpleMailMessage()
         email.setTo(user.email)
         email.setSubject(subject)
-        email.setText("$message rn http://localhost:8080$confirmationUrl")
+        email.setText("Your token http://localhost:8080$confirmationUrl")
         mailSender.send(email)
     }
 }

@@ -1,3 +1,6 @@
+server:
+  port: 5000
+
 spring:
   jpa:
     show-sql: true
@@ -5,8 +8,8 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    platform: postgres
-    url: jdbc:mysql://localhost:3306/coursework?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false
+    platform: mysql
+    url: jdbc:mysql://aa1r4kjibnjtmua.chddidqsrz8p.us-east-2.rds.amazonaws.com:3306/aa1r4kjibnjtmua?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false
     username: ld1995
     password: Ld_01482014
   mail:
