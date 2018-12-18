@@ -25,6 +25,8 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 import {UserDataService} from "./services/user-data/user-data.service";
 import {UniqueEmailValidation} from './directive/validation-email/unique-email-validation.directive';
 import {UniqueUsernameValidation} from './directive/validation-username/unique-username-validation.directive';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ToastrModule} from "ng6-toastr-notifications";
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import {UniqueUsernameValidation} from './directive/validation-username/unique-u
     HttpClientModule,
     ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     {

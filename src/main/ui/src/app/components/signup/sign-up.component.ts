@@ -5,6 +5,7 @@ import {AuthService} from "../../services/auth/auth.service";
 import {UserService} from "../../services/user/user.service";
 import {Observable} from "rxjs";
 import {switchMap} from "rxjs/operators";
+import {ToastrManager} from "ng6-toastr-notifications";
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +19,7 @@ export class SignUpComponent implements OnInit {
   messageSuccess: string;
 
   constructor(private router: Router, private authService: AuthService,
-              private formBuilder: FormBuilder, private userService: UserService) {
+              private formBuilder: FormBuilder, public toastr: ToastrManager) {
     this.messageError = "";
     this.messageSuccess = "";
     this.signUpForm = this.formBuilder.group({
@@ -39,7 +40,7 @@ export class SignUpComponent implements OnInit {
         this.messageError = response['message'];
       }
       this.messageError = '';
-      this.messageSuccess = response['message'];
+      this.toastr.successToastr(response['message'], 'Success!');
       this.signUpForm.reset();
       this.router.navigate(['login']);
     }, response => {

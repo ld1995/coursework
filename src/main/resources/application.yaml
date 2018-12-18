@@ -9,23 +9,18 @@ spring:
       ddl-auto: update
   datasource:
     platform: mysql
-    url: jdbc:mysql://aa1r4kjibnjtmua.chddidqsrz8p.us-east-2.rds.amazonaws.com:3306/aa1r4kjibnjtmua?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://coursework.chddidqsrz8p.us-east-2.rds.amazonaws.com:3306/coursework?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false
     username: ld1995
     password: Ld_01482014
   mail:
-    host: email-smtp.us-west-2.amazonaws.com
-    username:
-    password:
+    host: smtp.gmail.com
+    username: l.petrov05091995@gmail.com
+    password: wfnczddcpzykbngv
+    port: 587
     properties:
-      mail:
-        transport:
-          protocol: smtp
-        smtp:
-          port: 25
-          auth: true
-          starttls:
-            enable: true
-            required: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.auth: true
+      mail.smtp.debug: true
 app:
   jwtSecret: JWTSuperSecretKey
   jwtExpirationInMs: 3600000

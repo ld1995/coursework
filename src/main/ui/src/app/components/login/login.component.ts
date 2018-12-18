@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth/auth.service";
 import {Router} from "@angular/router";
 import {TokenStorage} from "../../services/storages/token.storage.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ToastrManager} from "ng6-toastr-notifications";
 
 @Component({
   selector: 'app-login',

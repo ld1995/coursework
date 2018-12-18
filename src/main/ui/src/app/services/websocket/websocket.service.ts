@@ -5,6 +5,7 @@ import {Message} from "stompjs";
 import {ChatModule} from "../../models/chat/chat.module";
 import {MessageModule} from "../../models/message/message.module";
 import {UserDataService} from "../user-data/user-data.service";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class WebSocketService {
   }
 
   connect(id: number) {
-    const socket = new SockJS('http://localhost:5000/socket?jwt=' + `${localStorage.getItem('AuthToken')}`);
+    const socket = new SockJS(`${environment.rootUrl}/socket?jwt=${localStorage.getItem('AuthToken')}`);
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, () => {
       let subscription = this.stompClient.subscribe(`/topic/public/${id}`, res => this.getNewChat(res));

@@ -12,6 +12,15 @@ spring:
     url: jdbc:mysql://localhost:3306/coursework?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false
     username: ld1995
     password: Ld_01482014
+  mail:
+    host: smtp.gmail.com
+    username: l.petrov05091995@gmail.com
+    password: wfnczddcpzykbngv
+    port: 587
+    properties:
+      mail.smtp.starttls.enable: true
+      mail.smtp.auth: true
+      mail.smtp.debug: true
 app:
   jwtSecret: JWTSuperSecretKey
   jwtExpirationInMs: 3600000

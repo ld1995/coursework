@@ -5,6 +5,7 @@ import {LoginComponent} from "./components/login/login.component";
 import {AuthGuardService} from "./services/auth/auth-guard.service";
 import {SignUpComponent} from "./components/signup/sign-up.component";
 import {ProfileComponent} from "./components/profile/profile.component";
+import {NotAuthGuardService} from "./services/auth/not-auth-guard.service";
 
 const routes: Routes = [
   {
@@ -13,10 +14,12 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   }, {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [NotAuthGuardService]
   }, {
     path: 'signup',
-    component: SignUpComponent
+    component: SignUpComponent,
+    canActivate: [NotAuthGuardService]
   }, {
     path: 'profile',
     component: ProfileComponent,

@@ -12,11 +12,14 @@ export class AuthService {
   }
 
   public signIn(credentials): Observable<Object> {
-    return this.http.post(environment.baseUrl + '/auth/signin', credentials);
+    return this.http.post(`${environment.baseUrl}/auth/signin`, credentials);
   }
 
   public signUp(userData): Observable<Object> {
-    return this.http.post(environment.baseUrl + '/auth/signup',userData);
+    return this.http.post(`${environment.baseUrl}/auth/signup`,userData);
   }
 
+  public registrationConfirm(token): Observable<Object> {
+    return this.http.get(`${environment.baseUrl}/auth/registrationConfirm?token=${token}`)
+  }
 }

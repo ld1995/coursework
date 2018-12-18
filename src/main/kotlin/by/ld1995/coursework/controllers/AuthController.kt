@@ -97,7 +97,7 @@ class AuthController(private val authenticationManager: AuthenticationManager,
                 ?: return ResponseEntity(
                         ApiResponse(false, "Wrong token!"), HttpStatus.BAD_REQUEST)
         val user: User = verificationToken.user
-        if (verificationToken.expiryDate.isAfter(Instant.now()))
+        if (verificationToken.expiryDate.isBefore(Instant.now()))
             return ResponseEntity(
                     ApiResponse(false, "Outdated token!"),
                     HttpStatus.BAD_REQUEST)

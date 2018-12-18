@@ -24,12 +24,12 @@ class RegistrationListener(private val userService: UserService,
         userService.createVerificationToken(user, token)
 
         val subject = "Registration Confirmation"
-        val confirmationUrl = "/api/auth/registrationConfirm.html?token=$token"
+        val confirmationUrl = "?token=$token"
 
         val email = SimpleMailMessage()
         email.setTo(user.email)
         email.setSubject(subject)
-        email.setText("Your token http://localhost:8080$confirmationUrl")
+        email.setText("Your token http://coursework.us-east-2.elasticbeanstalk.com/$confirmationUrl")
         mailSender.send(email)
     }
 }

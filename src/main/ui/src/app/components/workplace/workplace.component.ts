@@ -19,8 +19,8 @@ export class WorkplaceComponent implements OnInit, OnDestroy {
   public chatList: ChatModule[] = [];
   public filteredItems: ChatModule[] = [];
   public messageForm: FormGroup;
-  private showCloseButton = false;
-  private showInputMessage = false;
+  showCloseButton = false;
+  showInputMessage = false;
   private selectedElement: Element = null;
   private openChatId: string;
 
